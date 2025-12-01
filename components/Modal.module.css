@@ -63,3 +63,19 @@
     margin-top: 1rem;
     margin-bottom: 0;
 }
+
+@media (max-width: 480px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .formGrid input {
+    max-width: none;
+    width: 100%;
+  }
+
+  .formGrid label {
+    margin-bottom: 0.5rem;
+  }
+}
