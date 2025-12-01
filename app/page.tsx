@@ -90,10 +90,10 @@ export default function Home() {
 
     // 2. Login Screens
     if (role === 'gm' && !gameState.gm.isLoggedIn) {
-      return <GMLogin onBack={() => handleSetRole(null)} />;
+      return <GMLogin />;
     }
     if (role === 'player' && !playerId) {
-      return <PlayerLogin onLogin={setPlayerId} onBack={() => handleSetRole(null)} />;
+      return <PlayerLogin onLogin={setPlayerId} />;
     }
 
     // --- Logged-In Views ---
@@ -103,7 +103,7 @@ export default function Home() {
 
     // If player has logged in but their data isn't in the state yet (e.g., after a reset)
     if (role === 'player' && playerId && !me) {
-        return <PlayerLogin onLogin={setPlayerId} message={t('playerLogin.loginMessage')} onBack={() => handleSetRole(null)} />;
+        return <PlayerLogin onLogin={setPlayerId} message={t('playerLogin.loginMessage')} />;
     }
 
     // 3. Waiting Room
@@ -148,8 +148,19 @@ export default function Home() {
           {error && <p className="error">{t('connectionError', { error: error })}</p>}
           <Suspense fallback={<div className="spinner"></div>}>
             {renderContent()}
-          </Suspense>
-        </div>
-      </main>
-    );
-  }
+                  </Suspense>
+                </div>
+                <footer style={{ textAlign: 'center', marginTop: '2rem', padding: '1rem', borderTop: '1px solid #ccc' }}>
+                  <p>Developed by:</p>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+                    <a href="https://github.com/ohm41321" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+                      <img src="/github.svg" alt="GitHub" width="20" height="20" style={{ marginRight: '5px' }} />
+                      <span>ohm41321</span>
+                    </a>
+                    <span>|</span>
+                    <span>Email: athitfkm@gmail.com</span>
+                  </div>
+                </footer>
+              </main>
+            );
+          }

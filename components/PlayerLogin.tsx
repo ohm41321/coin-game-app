@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 interface PlayerLoginProps {
   onLogin: (playerId: string) => void;
-  onBack: () => void;
+  // onBack: () => void; // Removed as global back button handles this
   message?: string;
 }
 
-const PlayerLogin: React.FC<PlayerLoginProps> = ({ onLogin, onBack, message }) => {
+const PlayerLogin: React.FC<PlayerLoginProps> = ({ onLogin, message }) => { // Removed onBack from destructuring
   const { t } = useTranslation();
   const [name, setName] = useState('');
   const [error, setError] = useState('');
@@ -69,9 +69,6 @@ const PlayerLogin: React.FC<PlayerLoginProps> = ({ onLogin, onBack, message }) =
         />
         <button type="submit" disabled={isLoading}>
           {isLoading ? t('playerLogin.joiningButton') : t('playerLogin.joinGameButton')}
-        </button>
-        <button type="button" onClick={onBack} style={{ marginLeft: '10px' }}>
-          {t('common.backButton', 'Back')}
         </button>
         {error && <p className="error">{error}</p>}
       </form>

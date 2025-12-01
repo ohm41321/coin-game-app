@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface GMLoginProps {
-  onBack: () => void;
+  // onBack: () => void; // Removed as global back button handles this
 }
 
-const GMLogin: React.FC<GMLoginProps> = ({ onBack }) => {
+const GMLogin: React.FC<GMLoginProps> = () => { // Removed { onBack } from destructuring
   const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -50,9 +50,6 @@ const GMLogin: React.FC<GMLoginProps> = ({ onBack }) => {
         />
         <button type="submit" disabled={isLoading}>
           {isLoading ? t('gmLogin.loggingInButton') : t('gmLogin.loginButton')}
-        </button>
-        <button type="button" onClick={onBack} style={{ marginLeft: '10px' }}>
-          {t('common.backButton', 'Back')}
         </button>
         {error && <p className="error">{error}</p>}
         <p style={{fontSize: '0.8rem', opacity: '0.6', marginTop: '1rem'}}>{t('gmLogin.defaultPasswordHint')}</p>
