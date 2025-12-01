@@ -14,6 +14,7 @@ export interface Player {
     emergency: number;
   };
   currentAllocation: PlayerAllocation | null;
+  coinsToAllocate: number;
   // New fields for event resolution
   actionRequired:
     | { type: 'DISTRIBUTE_LOSS'; value: number }

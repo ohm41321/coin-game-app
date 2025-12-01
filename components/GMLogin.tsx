@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const GMLogin: React.FC = () => {
+interface GMLoginProps {
+  onBack: () => void;
+}
+
+const GMLogin: React.FC<GMLoginProps> = ({ onBack }) => {
   const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -46,6 +50,9 @@ const GMLogin: React.FC = () => {
         />
         <button type="submit" disabled={isLoading}>
           {isLoading ? t('gmLogin.loggingInButton') : t('gmLogin.loginButton')}
+        </button>
+        <button type="button" onClick={onBack} style={{ marginLeft: '10px' }}>
+          {t('common.backButton', 'Back')}
         </button>
         {error && <p className="error">{error}</p>}
         <p style={{fontSize: '0.8rem', opacity: '0.6', marginTop: '1rem'}}>{t('gmLogin.defaultPasswordHint')}</p>

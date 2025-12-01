@@ -29,11 +29,13 @@ export async function POST(request: Request) {
       eventDebtLog: [],
       categoryTotals: { short: 0, long: 0, emergency: 0 },
       currentAllocation: null,
+      coinsToAllocate: 0,
       actionRequired: null,
       allocationChanges: null,
       hasConfirmed: false,
       lastUpdate: Date.now(),
       foodCostWaived: false,
+      lastRoundSummary: null,
     };
 
     const updatedState = await updateGameState((currentState) => {
