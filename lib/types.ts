@@ -9,7 +9,6 @@ export interface Player {
   eventDebt: number;
   eventDebtLog: string[];
   categoryTotals: {
-    food: number;
     short: number;
     long: number;
     emergency: number;
@@ -53,8 +52,8 @@ export type EventEffect =
 
 export interface EventCard {
   id: string;
-  title: string;
-  description: string;
+  title: { [key: string]: string };
+  description: { [key: string]: string };
   effect: EventEffect;
 }
 

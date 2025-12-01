@@ -218,3 +218,58 @@ input[type="number"] {
   opacity: 0.8;
 
 }
+
+/* Language Switcher Styles */
+.language-switcher {
+  display: flex;
+  gap: 0.25rem;
+  background: rgba(var(--tile-start-rgb), 0.3);
+  border-radius: 8px;
+  padding: 0.25rem;
+  border: 1px solid rgba(var(--tile-border), 0.5);
+}
+
+.language-switcher button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin: 0;
+}
+
+.language-switcher button:hover:not(:disabled) {
+  background: rgba(var(--primary-glow), 0.2);
+  color: white;
+}
+
+.language-switcher button:disabled {
+  background: var(--primary-glow);
+  color: white;
+  cursor: default;
+}
+
+/* Back Button Styles */
+.back-button {
+  background: var(--secondary-glow);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}

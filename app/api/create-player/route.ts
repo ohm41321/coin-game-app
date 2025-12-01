@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       foodDebt: 0,
       eventDebt: 0,
       eventDebtLog: [],
-      categoryTotals: { food: 0, short: 0, long: 0, emergency: 0 },
+      categoryTotals: { short: 0, long: 0, emergency: 0 },
       currentAllocation: null,
       actionRequired: null,
       allocationChanges: null,

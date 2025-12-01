@@ -6,6 +6,7 @@ import DistributeLossModal from './DistributeLossModal';
 import CoverLossModal from './CoverLossModal';
 import AllocateBonusModal from './AllocateBonusModal';
 import RoundSummaryModal from './RoundSummaryModal'; // Import the new modal
+import { useTranslation } from 'react-i18next';
 
 interface PlayerViewProps {
   gameState: GameState;
@@ -13,6 +14,7 @@ interface PlayerViewProps {
 }
 
 const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
+  const { t } = useTranslation();
   const [allocation, setAllocation] = useState<PlayerAllocation>({ food: 0, short: 0, long: 0, emergency: 0 });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +56,7 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
       });
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.message || 'Failed to acknowledge summary');
+        throw new Error(data.message || t('playerView.failedAcknowledgeSummary'));
       }
       // Polling will handle the UI update
     } catch (err: any) {
@@ -67,7 +69,7 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (totalAllocated !== allocationBudget) {
-      setError(`Your allocation must sum to ${allocationBudget}.`);
+      setError(t('playerView.allocationSumError', { allocationBudget }));
       return;
     }
     setError('');
@@ -79,7 +81,7 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
         body: JSON.stringify({ playerId: me.id, allocation }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Failed to submit.');
+      if (!response.ok) throw new Error(data.message || t('playerView.submitFailed'));
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -94,7 +96,7 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
           <div>
             <EventCardView event={gameState.currentEvent!} />
             <button onClick={() => setHasAcknowledgedEvent(true)} style={{ marginTop: '1.5rem', width: '100%', padding: '0.75rem' }}>
-              Continue
+              {t('playerView.continueButton')}
             </button>
           </div>
         );
@@ -128,7 +130,7 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
         }
 
         if (me.currentAllocation) {
-          return <p>Waiting for other players to submit their allocation...</p>;
+          return <p>{t('playerView.waitingForOtherPlayers')}</p>;
         }
         return (
           <form onSubmit={handleSubmit}>
@@ -137,72 +139,72 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
                     {me.eventDebtLog.map((log, i) => <p key={i} style={{margin:0, fontSize: '0.9rem'}}>{log}</p>)}
                 </div>
             )}
-            <p>Allocate your <strong>{allocationBudget}</strong> coins for this round.</p>
+            <p>{t('playerView.allocateCoinsMessage', { allocationBudget })}</p>
             {/* ... allocation rows ... */}
             <div className='allocation-row'>
                 <div className='label-group'>
-                    <label>🏠 Food / Housing</label>
-                    <p className='category-description'>Cost is 5. Underpayment creates debt. Overpayment will be credited.</p>
+                    <label>{t('playerView.foodHousingLabel')}</label>
+                    <p className='category-description'>{t('playerView.foodHousingDescription')}</p>
                 </div>
                 <input style={{width: '70px'}} type="number" value={allocation.food} onChange={e => handleAllocationChange('food', e.target.value)} step="1" />
             </div>
             {/* Other rows... */}
             <div className='allocation-row'>
                 <div className='label-group'>
-                    <label>📈 Short-term Investment</label>
-                    <p className='category-description'>3 coins = +1 income</p>
+                    <label>{t('playerView.shortTermInvestmentLabel')}</label>
+                    <p className='category-description'>{t('playerView.shortTermInvestmentDescription')}</p>
                 </div>
                 <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8}}>Total: {me.categoryTotals.short}</div>
                 <input style={{width: '70px'}} type="number" value={allocation.short} onChange={e => handleAllocationChange('short', e.target.value)} step="1" />
             </div>
             <div className='allocation-row'>
                 <div className='label-group'>
-                    <label>🌳 Long-term Investment</label>
-                    <p className='category-description'>4 coins = +1 income, plus bonus</p>
+                    <label>{t('playerView.longTermInvestmentLabel')}</label>
+                    <p className='category-description'>{t('playerView.longTermInvestmentDescription')}</p>
                 </div>
                 <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8}}>Total: {me.categoryTotals.long}</div>
                 <input style={{width: '70px'}} type="number" value={allocation.long} onChange={e => handleAllocationChange('long', e.target.value)} step="1" />
             </div>
             <div className='allocation-row'>
                 <div className='label-group'>
-                    <label>🛡️ Emergency Fund</label>
-                     <p className='category-description'>Covers deficits and events</p>
+                    <label>{t('playerView.emergencyFundLabel')}</label>
+                     <p className='category-description'>{t('playerView.emergencyFundDescription')}</p>
                 </div>
                 <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8}}>Total: {me.categoryTotals.emergency}</div>
                 <input style={{width: '70px'}} type="number" value={allocation.emergency} onChange={e => handleAllocationChange('emergency', e.target.value)} step="1" />
             </div>
-            <p style={{marginTop: '1.5rem'}}>Total Allocated: {totalAllocated} / {allocationBudget}</p>
-            <button type="submit" disabled={isLoading || totalAllocated !== allocationBudget}>Submit</button>
+            <p style={{marginTop: '1.5rem'}}>{t('playerView.totalAllocated', { totalAllocated, allocationBudget })}</p>
+            <button type="submit" disabled={isLoading || totalAllocated !== allocationBudget}>{t('playerView.submitButton')}</button>
             {error && <p className="error">{error}</p>}
           </form>
         );
       // ... other cases
       case GamePhase.EVENT_RESOLUTION:
-        return <p>Waiting for players to resolve the event...</p>;
+        return <p>{t('playerView.waitingToResolveEvent')}</p>;
       case GamePhase.EVENT_DRAWN:
         return (
           <div>
             <EventCardView event={gameState.currentEvent!} />
-            <p style={{marginTop: '1.5rem'}}>Event resolved. Waiting for GM.</p>
+            <p style={{marginTop: '1.5rem'}}>{t('playerView.eventResolvedWaitingGM')}</p>
           </div>
         );
       case GamePhase.ROUND_END:
-        return <p>Round {gameState.currentRound} ended. Waiting for next round.</p>;
+        return <p>{t('playerView.roundEndedWaitingNextRound', { currentRound: gameState.currentRound })}</p>;
       default:
-        return <p>Please wait...</p>;
+        return <p>{t('playerView.pleaseWait')}</p>;
     }
   };
 
   return (
     <div>
       <div style={{textAlign: 'left', marginBottom: '2rem', padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '8px'}}>
-        <p style={{margin: 0}}><strong>{me.name}</strong></p>
-        <p style={{margin: 0}}>Total Coins: {Math.floor(me.totalCoins)}</p>
-        {me.foodDebt > 0 && <p style={{margin: 0, color: '#fca5a5'}}>Food Debt: {me.foodDebt}</p>}
-        {me.foodDebt < 0 && <p style={{margin: 0, color: '#48bb78'}}>Food Pre-payment: {-me.foodDebt}</p>}
-        <p style={{margin: 0}}>Income for next round: {me.income}</p>
+        <p style={{margin: 0}}><strong>{t('playerView.playerStatusName', { name: me.name })}</strong></p>
+        <p style={{margin: 0}}>{t('playerView.playerStatusTotalCoins', { totalCoins: Math.floor(me.totalCoins) })}</p>
+        {me.foodDebt > 0 && <p style={{margin: 0, color: '#fca5a5'}}>{t('playerView.playerStatusFoodDebt', { foodDebt: me.foodDebt })}</p>}
+        {me.foodDebt < 0 && <p style={{margin: 0, color: '#48bb78'}}>{t('playerView.playerStatusFoodPrePayment', { foodPrepayment: -me.foodDebt })}</p>}
+        <p style={{margin: 0}}>{t('playerView.playerStatusIncomeNextRound', { income: me.income })}</p>
       </div>
-      <h2>Round {gameState.currentRound}</h2>
+      <h2>{t('playerView.roundTitle', { currentRound: gameState.currentRound })}</h2>
       {renderContent()}
     </div>
   );

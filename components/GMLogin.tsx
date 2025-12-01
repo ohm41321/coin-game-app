@@ -1,7 +1,8 @@
-// components/GMLogin.tsx
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const GMLogin: React.FC = () => {
+  const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -34,20 +35,20 @@ const GMLogin: React.FC = () => {
 
   return (
     <div>
-      <h2>Game Master Login</h2>
+      <h2>{t('gmLogin.title')}</h2>
       <form onSubmit={handleLogin}>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter GM Password"
+          placeholder={t('gmLogin.passwordPlaceholder')}
           required
         />
         <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Logging in...' : 'Login'}
+          {isLoading ? t('gmLogin.loggingInButton') : t('gmLogin.loginButton')}
         </button>
         {error && <p className="error">{error}</p>}
-        <p style={{fontSize: '0.8rem', opacity: '0.6', marginTop: '1rem'}}>Default password is: password123</p>
+        <p style={{fontSize: '0.8rem', opacity: '0.6', marginTop: '1rem'}}>{t('gmLogin.defaultPasswordHint')}</p>
       </form>
     </div>
   );

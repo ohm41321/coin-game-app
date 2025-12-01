@@ -101,7 +101,6 @@ export function calculateRound(gameState: GameState): GameState {
         // Player pays what they allocated, up to what they can afford.
         const foodPayment = Math.min(currentAllocation.food, availableCoins);
         availableCoins -= foodPayment;
-        player.categoryTotals.food += foodPayment;
 
         // Subtract payment from the balance. The result can be positive (debt) or negative (credit).
         player.foodDebt = foodBalanceBeforePayment - foodPayment;

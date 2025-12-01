@@ -42,8 +42,13 @@ export async function getGameState(): Promise<GameState> {
     // --- Data Migration ---
     // This ensures that games saved with an older data structure are gracefully updated.
     for (const playerId in state.players) {
-        if (!state.players[playerId].categoryTotals) {
-            state.players[playerId].categoryTotals = { food: 0, short: 0, long: 0, emergency: 0 };
+        const player = state.players[playerId];
+        if (!player.categoryTotals) {
+            // If categoryTotals doesn't exist at all, create it without food
+            player.categoryTotals = { short: 0, long: 0, emergency: 0 };
+        } else if ('food' in player.categoryTotals) {
+            // If it does exist and has a food property, delete it
+            delete (player.categoryTotals as any).food;
         }
     }
 

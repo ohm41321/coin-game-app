@@ -1,6 +1,7 @@
 // components/Leaderboard.tsx
 import React, { useState } from 'react';
 import { GameState } from '../lib/types';
+import { useTranslation } from 'react-i18next';
 
 interface LeaderboardProps {
   gameState: GameState;
@@ -8,10 +9,11 @@ interface LeaderboardProps {
 }
 
 const Leaderboard: React.FC<LeaderboardProps> = ({ gameState, role }) => {
+    const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleResetGame = async () => {
-        if (!confirm('Are you sure you want to reset the entire game? This will allow a new game to begin.')) {
+        if (!confirm(t('leaderboard.resetConfirm'))) {
             return;
         }
         setIsLoading(true);
@@ -33,20 +35,20 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ gameState, role }) => {
 
   return (
     <div>
-      <h2>Game Over!</h2>
-      <h3>🏆 Final Leaderboard 🏆</h3>
+      <h2>{t('leaderboard.gameOverTitle')}</h2>
+      <h3>{t('leaderboard.finalLeaderboardTitle')}</h3>
       <ol style={{ listStylePosition: 'inside', padding: '1rem 0' }}>
         {leaderboard.map((player, index) => (
           <li key={index} style={{ fontSize: '1.2rem', fontWeight: index === 0 ? 'bold' : 'normal', margin: '0.5rem 0' }}>
-            {player.name} - {player.totalCoins} coins
+            {player.name} - {t('leaderboard.coins', { count: player.totalCoins })}
           </li>
         ))}
       </ol>
-      <p>Thank you for playing!</p>
+      <p>{t('leaderboard.thankYouMessage')}</p>
 
       {role === 'gm' && (
          <button onClick={handleResetGame} disabled={isLoading} className="danger">
-            Reset Game for All Players
+            {t('leaderboard.resetGame')}
         </button>
       )}
     </div>

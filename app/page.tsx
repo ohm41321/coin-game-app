@@ -1,7 +1,7 @@
 // app/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { GameState, GamePhase, Player } from '../lib/types';
 import GMLogin from '../components/GMLogin';
 import PlayerLogin from '../components/PlayerLogin';
@@ -10,20 +10,24 @@ import WaitingRoom from '../components/WaitingRoom';
 import GMDashboard from '../components/GMDashboard';
 import PlayerView from '../components/PlayerView';
 import Leaderboard from '../components/Leaderboard';
+import { useTranslation } from 'react-i18next';
 
 // This is the main component that orchestrates the entire UI.
 export default function Home() {
+  const { t, i18n } = useTranslation();
   // Client-side state
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [error, setError] = useState<string>('');
   
-  const [role, setRole] = useState<'player' | 'gm' | null>(() => {
-    if (typeof window !== 'undefined') {
-      const savedRole = localStorage.getItem('coin_game_role');
-      return savedRole === 'player' || savedRole === 'gm' ? savedRole : null;
+  const [role, setRole] = useState<'player' | 'gm' | null>(null);
+
+  // This effect runs only on the client, after the initial render, to avoid hydration mismatch.
+  useEffect(() => {
+    const savedRole = localStorage.getItem('coin_game_role');
+    if (savedRole === 'player' || savedRole === 'gm') {
+      setRole(savedRole);
     }
-    return null;
-  });
+  }, []);
 
   const [playerId, setPlayerId] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -86,10 +90,10 @@ export default function Home() {
 
     // 2. Login Screens
     if (role === 'gm' && !gameState.gm.isLoggedIn) {
-      return <GMLogin />;
+      return <GMLogin onBack={() => handleSetRole(null)} />;
     }
     if (role === 'player' && !playerId) {
-      return <PlayerLogin onLogin={setPlayerId} />;
+      return <PlayerLogin onLogin={setPlayerId} onBack={() => handleSetRole(null)} />;
     }
 
     // --- Logged-In Views ---
@@ -99,7 +103,7 @@ export default function Home() {
 
     // If player has logged in but their data isn't in the state yet (e.g., after a reset)
     if (role === 'player' && playerId && !me) {
-        return <PlayerLogin onLogin={setPlayerId} message="Game may have been reset. Please log in again." />;
+        return <PlayerLogin onLogin={setPlayerId} message={t('playerLogin.loginMessage')} onBack={() => handleSetRole(null)} />;
     }
 
     // 3. Waiting Room
@@ -120,13 +124,32 @@ export default function Home() {
     return <div>An unexpected error occurred.</div>;
   };
 
-  return (
-    <main>
-      <div className="container">
-        <h1>Budgeting Game</h1>
-        {error && <p className="error">Connection Error: {error}</p>}
-        {renderContent()}
-      </div>
-    </main>
-  );
-}
+      return (
+      <main>
+        <div className="container" style={{ position: 'relative' }}>
+          <div className="language-switcher" style={{ position: 'absolute', top: '1rem', right: '0.5rem' }}>
+            <button onClick={() => i18n.changeLanguage('en')} disabled={i18n.language === 'en'}>EN</button>
+            <button onClick={() => i18n.changeLanguage('th')} disabled={i18n.language === 'th'}>TH</button>
+          </div>
+  
+          {/* Conditionally render back button at top-left of the container */}
+          {(role === 'gm' && !gameState?.gm.isLoggedIn) || (role === 'player' && !playerId) || (role === 'player' && playerId && !gameState?.players[playerId]) ? (
+              <button
+                type="button"
+                className="back-button"
+                onClick={() => handleSetRole(null)}
+                style={{ position: 'absolute', top: '1rem', left: '1rem' }}
+              >
+                ← {t('back')}
+              </button>
+            ) : null}
+  
+          <h1>{t('appName')}</h1>
+          {error && <p className="error">{t('connectionError', { error: error })}</p>}
+          <Suspense fallback={<div className="spinner"></div>}>
+            {renderContent()}
+          </Suspense>
+        </div>
+      </main>
+    );
+  }

@@ -1,5 +1,6 @@
 // components/PlayerLogin.tsx
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface PlayerLoginProps {
   onLogin: (playerId: string) => void;
@@ -7,6 +8,7 @@ interface PlayerLoginProps {
 }
 
 const PlayerLogin: React.FC<PlayerLoginProps> = ({ onLogin, message }) => {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -53,19 +55,19 @@ const PlayerLogin: React.FC<PlayerLoginProps> = ({ onLogin, message }) => {
 
   return (
     <div>
-      <h2>Join the Game</h2>
+      <h2>{t('playerLogin.joinGameTitle')}</h2>
        {message && <p>{message}</p>}
       <form onSubmit={handleLogin}>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter Your Name"
+          placeholder={t('playerLogin.namePlaceholder')}
           required
           maxLength={30}
         />
         <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Joining...' : 'Join Game'}
+          {isLoading ? t('playerLogin.joiningButton') : t('playerLogin.joinGameButton')}
         </button>
         {error && <p className="error">{error}</p>}
       </form>

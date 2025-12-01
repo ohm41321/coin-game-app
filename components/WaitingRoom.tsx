@@ -1,13 +1,15 @@
 // components/WaitingRoom.tsx
 import React, { useState } from 'react';
 import { GameState } from '../lib/types';
+import { useTranslation } from 'react-i18next';
 
 interface WaitingRoomProps {
   gameState: GameState;
-  role: 'player' | 'gm';
+  role: 'player' | 'gm' | null; // role can be null for initial state
 }
 
 const WaitingRoom: React.FC<WaitingRoomProps> = ({ gameState, role }) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -29,7 +31,7 @@ const WaitingRoom: React.FC<WaitingRoomProps> = ({ gameState, role }) => {
   };
   
   const handleResetGame = async () => {
-    if (!confirm('Are you sure you want to reset the entire game? All players will be disconnected.')) {
+    if (!confirm(t('waitingRoom.resetConfirm'))) {
         return;
     }
     setIsLoading(true);
@@ -51,9 +53,9 @@ const WaitingRoom: React.FC<WaitingRoomProps> = ({ gameState, role }) => {
 
   return (
     <div>
-      <h2>Waiting for Game to Start</h2>
+      <h2>{t('waitingRoom.title')}</h2>
       <p>
-        {playerList.length} {playerList.length === 1 ? 'player' : 'players'} have joined.
+        {t('waitingRoom.playerCount', { count: playerList.length })}
       </p>
 
       <div className="player-list">
@@ -64,23 +66,23 @@ const WaitingRoom: React.FC<WaitingRoomProps> = ({ gameState, role }) => {
             ))}
           </ul>
         ) : (
-          <p>No players have joined yet.</p>
+          <p>{t('waitingRoom.noPlayers')}</p>
         )}
       </div>
 
       {role === 'gm' && (
         <div>
           <button onClick={handleStartGame} disabled={isLoading || playerList.length === 0}>
-            {isLoading ? 'Starting...' : 'Start Round 1'}
+            {isLoading ? t('waitingRoom.startingButton') : t('waitingRoom.startRoundButton')}
           </button>
           <button onClick={handleResetGame} className="danger" disabled={isLoading}>
-            Reset Game
+            {t('waitingRoom.resetGameButton')}
           </button>
           {error && <p className="error">{error}</p>}
         </div>
       )}
 
-      {role === 'player' && <p>The Game Master will start the game shortly.</p>}
+      {role === 'player' && <p>{t('waitingRoom.playerWaitingMessage')}</p>}
     </div>
   );
 };
