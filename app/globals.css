@@ -1,13 +1,31 @@
+/* app/globals.css */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
+    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
+    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+
+  --background-start-rgb: 20, 20, 20;
+  --background-end-rgb: 0, 0, 0;
+  --foreground-rgb: 255, 255, 255;
+
+  --primary-glow: #16a34a; /* Green */
+  --secondary-glow: #4f46e5; /* Indigo */
+
+  --tile-start-rgb: 40, 40, 40;
+  --tile-end-rgb: 20, 20, 20;
+  --tile-border: 60, 60, 60;
+
+  --callout-rgb: 20, 20, 20;
+  --callout-border-rgb: 108, 108, 108;
+
+  --card-rgb: 18, 18, 18;
+  --card-border-rgb: 50, 50, 50;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html,
@@ -17,17 +35,24 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  font-family: var(--font-mono);
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
 }
 
 a {
@@ -35,8 +60,161 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+p {
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+}
+
+.allocation-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(var(--tile-start-rgb), 0.2);
+  border-radius: 8px;
+}
+
+.label-group {
+  text-align: left;
+}
+
+.label-group label {
+  font-weight: 600;
+}
+
+.category-description {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 0.25rem;
+  margin-bottom: 0; /* Override default p margin */
+}
+
+.container {
+  background: rgba(var(--card-rgb), 0.8);
+  border: 1px solid rgba(var(--card-border-rgb), 0.5);
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+button {
+  background-color: var(--primary-glow);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin: 0.5rem;
+}
+
+button:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+button.secondary {
+    background-color: var(--secondary-glow);
+}
+
+button.danger {
+    background-color: #ef4444;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+  background-color: rgba(var(--tile-start-rgb), 0.5);
+  border: 1px solid rgba(var(--tile-border), 0.8);
+  color: white;
+  border-radius: 8px;
+  padding: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  width: 100%;
+  max-width: 300px;
+}
+
+.error {
+  color: #fca5a5;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #fff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 2rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.player-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.player-list li {
+
+  background: rgba(var(--tile-start-rgb), 0.3);
+
+  padding: 0.5rem;
+
+  border-radius: 4px;
+
+  margin-bottom: 0.5rem;
+
+}
+
+
+
+.categoryTotals {
+
+  margin-top: 0.75rem;
+
+  border-top: 1px solid rgba(var(--tile-border), 0.5);
+
+  padding-top: 0.75rem;
+
+  font-size: 0.9rem;
+
+  opacity: 0.8;
+
 }

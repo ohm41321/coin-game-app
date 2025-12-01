@@ -1,0 +1,53 @@
+/* components/EventCardView.module.css */
+.card {
+  background: linear-gradient(145deg, #2d3748, #1a202c);
+  border: 1px solid #4a5568;
+  border-radius: 16px;
+  padding: 0;
+  margin: 2rem auto;
+  color: #edf2f7;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  overflow: hidden; /* Ensures the banner stays within the border-radius */
+  max-width: 400px;
+}
+
+.banner {
+  background-color: #e53e3e; /* Red */
+  color: white;
+  padding: 0.25rem 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.content {
+    padding: 1.5rem 2rem 2rem 2rem;
+}
+
+.icon {
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #fed7d7; /* Light red text */
+}
+
+.description {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
