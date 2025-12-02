@@ -36,6 +36,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ gameState, role }) => {
   return (
     <div>
       <h2>{t('leaderboard.gameOverTitle')}</h2>
+      <div className="confetti"></div>
       <h3>{t('leaderboard.finalLeaderboardTitle')}</h3>
       <ol style={{ listStylePosition: 'inside', padding: '1rem 0' }}>
         {leaderboard.map((player, index) => (

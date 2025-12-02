@@ -1,11 +1,17 @@
 // app/api/get-state/route.ts
 import { NextResponse } from 'next/server';
-import { getGameState } from '@/lib/gameState';
+import { getGameState, getInitialState } from '@/lib/gameState';
 
 // Force dynamic execution and disable caching
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  // IMPORTANT: If we are in a build environment, don't touch the file system.
+  // Return a default state immediately. This prevents build timeouts.
+  if (process.env.NEXT_BUILD) {
+    return NextResponse.json(getInitialState());
+  }
+
   try {
     const gameState = await getGameState();
     return NextResponse.json(gameState);

@@ -11,6 +11,11 @@ const RoleSelector: React.FC<RoleSelectorProps> = ({ onSelectRole }) => {
 
   return (
     <div>
+      <div className="particles">
+        <div>🪙</div>
+        <div>🪙</div>
+        <div>🪙</div>
+      </div>
       <h2>{t('roleSelector.title')}</h2>
       <p>{t('roleSelector.description')}</p>
       <div>

@@ -182,6 +182,9 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
               <p className='category-description'>{t('playerView.emergencyFundDescription')}</p>
             </div>
             <p style={{marginTop: '1.5rem'}}>{t('playerView.totalAllocated', { totalAllocated, allocationBudget })}</p>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${Math.min((totalAllocated / allocationBudget) * 100, 100)}%` }}></div>
+            </div>
             <button type="submit" disabled={isLoading || totalAllocated !== allocationBudget}>{t('playerView.submitButton')}</button>
             {error && <p className="error">{error}</p>}
           </form>

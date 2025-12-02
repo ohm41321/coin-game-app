@@ -17,7 +17,7 @@ const GM_PASSWORD_HASH = createHash('sha256').update(GM_PASSWORD).digest('hex');
 /**
  * The initial state of the game.
  */
-const getInitialState = (): GameState => ({
+export const getInitialState = (): GameState => ({
   gamePhase: GamePhase.WAITING_FOR_PLAYERS,
   currentRound: 0,
   players: {},

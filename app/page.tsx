@@ -43,6 +43,12 @@ export default function Home() {
 
   // --- Main Game State Polling Logic ---
   useEffect(() => {
+    // IMPORTANT: This check ensures this code only runs on the client
+    if (typeof window === 'undefined') {
+      return;
+    }
+  
+    let isMounted = true;
     const fetchState = async () => {
       try {
         const response = await fetch('/api/get-state');
@@ -50,13 +56,19 @@ export default function Home() {
           throw new Error('Failed to fetch game state');
         }
         const data: GameState = await response.json();
-        setGameState(data);
+        if (isMounted) {
+          setGameState(data);
+        }
       } catch (err: any) {
-        setError(err.message);
+        if (isMounted) {
+          setError(err.message);
+        }
         // Stop polling on error
         clearInterval(interval);
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
@@ -67,7 +79,10 @@ export default function Home() {
     const interval = setInterval(fetchState, 2000);
 
     // Cleanup interval on component unmount
-    return () => clearInterval(interval);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, []); // Empty dependency array means this runs once on mount
 
   // --- Render Logic ---
@@ -173,4 +188,4 @@ export default function Home() {
                 </footer>
               </main>
             );
-          }
+}
