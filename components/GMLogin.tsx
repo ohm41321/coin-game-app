@@ -52,7 +52,7 @@ const GMLogin: React.FC<GMLoginProps> = () => { // Removed { onBack } from destr
           {isLoading ? t('gmLogin.loggingInButton') : t('gmLogin.loginButton')}
         </button>
         {error && <p className="error">{error}</p>}
-        <p style={{fontSize: '0.8rem', opacity: '0.6', marginTop: '1rem'}}>{t('gmLogin.defaultPasswordHint')}</p>
+
       </form>
     </div>
   );

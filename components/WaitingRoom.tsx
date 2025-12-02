@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next';
 
 interface WaitingRoomProps {
   gameState: GameState;
-  role: 'player' | 'gm' | null; // role can be null for initial state
+  role: 'player' | 'gm' | null;
+  onCancel?: () => void;
 }
 
-const WaitingRoom: React.FC<WaitingRoomProps> = ({ gameState, role }) => {
+const WaitingRoom: React.FC<WaitingRoomProps> = ({ gameState, role, onCancel }) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -82,7 +83,14 @@ const WaitingRoom: React.FC<WaitingRoomProps> = ({ gameState, role }) => {
         </div>
       )}
 
-      {role === 'player' && <p>{t('waitingRoom.playerWaitingMessage')}</p>}
+      {role === 'player' && (
+        <>
+          <p>{t('waitingRoom.playerWaitingMessage')}</p>
+          <button onClick={onCancel} className="danger" style={{marginTop: '1rem'}}>
+            {t('waitingRoom.cancelButton')}
+          </button>
+        </>
+      )}
     </div>
   );
 };

@@ -40,6 +40,7 @@
     "startingButton": "กำลังเริ่ม...",
     "startRoundButton": "เริ่มรอบที่ 1",
     "resetGameButton": "รีเซ็ตเกม",
+    "cancelButton": "ยกเลิก",
     "playerWaitingMessage": "ผู้คุมเกมจะเริ่มเกมในไม่ช้า",
     "resetConfirm": "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตเกมทั้งหมด? ผู้เล่นทุกคนจะถูกตัดการเชื่อมต่อ"
   },

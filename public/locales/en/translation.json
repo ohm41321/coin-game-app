@@ -40,6 +40,7 @@
     "startingButton": "Starting...",
     "startRoundButton": "Start Round 1",
     "resetGameButton": "Reset Game",
+    "cancelButton": "Cancel",
     "playerWaitingMessage": "The Game Master will start the game shortly.",
     "resetConfirm": "Are you sure you want to reset the entire game? All players will be disconnected."
   },

@@ -10,6 +10,7 @@ import WaitingRoom from '../components/WaitingRoom';
 import GMDashboard from '../components/GMDashboard';
 import PlayerView from '../components/PlayerView';
 import Leaderboard from '../components/Leaderboard';
+import CatchingGame from '../components/CatchingGame';
 import { useTranslation } from 'react-i18next';
 
 // This is the main component that orchestrates the entire UI.
@@ -20,6 +21,7 @@ export default function Home() {
   const [error, setError] = useState<string>('');
   
   const [role, setRole] = useState<'player' | 'gm' | null>(null);
+  const [showCatchGame, setShowCatchGame] = useState(false);
 
   // This effect runs only on the client, after the initial render, to avoid hydration mismatch.
   useEffect(() => {
@@ -38,6 +40,27 @@ export default function Home() {
       localStorage.setItem('coin_game_role', newRole);
     } else {
       localStorage.removeItem('coin_game_role');
+    }
+  };
+
+  const handlePlayerCancel = async () => {
+    if (!playerId) return;
+
+    try {
+      // Notify the server to remove the player
+      await fetch('/api/player/cancel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ playerId }),
+      });
+    } catch (err) {
+      // Even if server fails, log out on client side
+      console.error('Failed to cancel player on server', err);
+    } finally {
+      // Clear client-side state regardless of server response
+      localStorage.removeItem('coin-game-playerId');
+      setPlayerId('');
+      handleSetRole(null);
     }
   };
 
@@ -100,7 +123,14 @@ export default function Home() {
 
     // 1. Role Selection
     if (!role) {
-      return <RoleSelector onSelectRole={handleSetRole} />;
+      return (
+        <div className="role-selector-container">
+            <div className={`role-selector-wrapper ${showCatchGame ? 'hidden' : ''}`}>
+                <RoleSelector onSelectRole={handleSetRole} onPlayGame={() => setShowCatchGame(true)} />
+            </div>
+            {showCatchGame && <CatchingGame onClose={() => setShowCatchGame(false)} />}
+        </div>
+      )
     }
 
     // 2. Login Screens
@@ -123,7 +153,7 @@ export default function Home() {
 
     // 3. Waiting Room
     if (gameState.gamePhase === GamePhase.WAITING_FOR_PLAYERS) {
-        return <WaitingRoom gameState={gameState} role={role} />;
+        return <WaitingRoom gameState={gameState} role={role} onCancel={handlePlayerCancel} />;
     }
     
     // 4. Main Game Views
@@ -141,6 +171,13 @@ export default function Home() {
 
       return (
       <main>
+        <div className="particles">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
         <div className="header">
           <div className="left">
             {/* Conditionally render back button */}
