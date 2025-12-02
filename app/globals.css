@@ -51,7 +51,7 @@ main {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 4rem 2rem 2rem;
   text-align: center;
 }
 
@@ -98,8 +98,19 @@ p {
 .category-description {
   font-size: 0.8rem;
   opacity: 0.7;
-  margin-top: 0.25rem;
-  margin-bottom: 0; /* Override default p margin */
+  margin: 0.5rem 0 0 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .category-description {
+    font-size: 0.7rem;
+    line-height: 1.2;
+    max-width: 280px;
+    margin: 0.5rem auto;
+    word-wrap: break-word;
+    text-align: center;
+  }
 }
 
 .container {
@@ -274,6 +285,53 @@ input[type="number"] {
   transform: translateY(-2px);
 }
 
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(var(--background-start-rgb), 0.9);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+
+.header .left,
+.header .right {
+  width: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.header .left {
+  justify-content: flex-start;
+}
+
+.header .right {
+  justify-content: flex-end;
+}
+
+.header .center {
+  flex: 1;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+.language-switcher {
+  position: static;
+}
+
+.back-button {
+  position: static;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
@@ -300,13 +358,13 @@ input[type="number"] {
     font-size: 0.9rem;
   }
 
-  .language-switcher {
-    top: 0.5rem !important;
-    right: 0.5rem !important;
+  .header h1 {
+    font-size: 1.2rem;
+    white-space: nowrap;
   }
 
-  .back-button {
-    top: 0.5rem !important;
-    left: 0.5rem !important;
+  .label-group label {
+    white-space: nowrap;
+    font-size: 0.9rem;
   }
 }

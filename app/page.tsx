@@ -126,39 +126,49 @@ export default function Home() {
 
       return (
       <main>
-        <div className="container" style={{ position: 'relative' }}>
-          <div className="language-switcher" style={{ position: 'absolute', top: '1rem', right: '0.5rem' }}>
-            <button onClick={() => i18n.changeLanguage('en')} disabled={i18n.language === 'en'}>EN</button>
-            <button onClick={() => i18n.changeLanguage('th')} disabled={i18n.language === 'th'}>TH</button>
+        <div className="header">
+          <div className="left">
+            {/* Conditionally render back button */}
+            {(role === 'gm' && !gameState?.gm.isLoggedIn) || (role === 'player' && !playerId) || (role === 'player' && playerId && !gameState?.players[playerId]) ? (
+                <button
+                  type="button"
+                  className="back-button"
+                  onClick={() => handleSetRole(null)}
+                >
+                  ← {t('back')}
+                </button>
+              ) : null}
           </div>
-  
-          {/* Conditionally render back button at top-left of the container */}
-          {(role === 'gm' && !gameState?.gm.isLoggedIn) || (role === 'player' && !playerId) || (role === 'player' && playerId && !gameState?.players[playerId]) ? (
-              <button
-                type="button"
-                className="back-button"
-                onClick={() => handleSetRole(null)}
-                style={{ position: 'absolute', top: '1rem', left: '1rem' }}
-              >
-                ← {t('back')}
-              </button>
-            ) : null}
-  
-          <h1>{t('appName')}</h1>
+
+          <div className="center">
+            <h1>{t('appName')}</h1>
+          </div>
+
+          <div className="right">
+            <div className="language-switcher">
+              <button onClick={() => i18n.changeLanguage('en')} disabled={i18n.language === 'en'}>EN</button>
+              <button onClick={() => i18n.changeLanguage('th')} disabled={i18n.language === 'th'}>TH</button>
+            </div>
+          </div>
+        </div>
+
           {error && <p className="error">{t('connectionError', { error: error })}</p>}
           <Suspense fallback={<div className="spinner"></div>}>
             {renderContent()}
                   </Suspense>
-                </div>
-                <footer style={{ textAlign: 'center', marginTop: '2rem', padding: '1rem', borderTop: '1px solid #ccc' }}>
-                  <p>Developed by:</p>
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
-                    <a href="https://github.com/ohm41321" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+                <footer style={{ textAlign: 'center', marginTop: '2rem', padding: '1rem', borderTop: '1px solid #ccc', background: 'rgba(0,0,0,0.05)', borderRadius: '8px' }}>
+                  <p style={{ marginBottom: '0.5rem', fontWeight: 'bold' }}>Developed by:</p>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                    <a href="https://github.com/ohm41321" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', transition: 'color 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.color = '#333'} onMouseLeave={(e) => e.currentTarget.style.color = 'inherit'}>
                       <img src="/github.svg" alt="GitHub" width="20" height="20" style={{ marginRight: '5px' }} />
-                      <span>ohm41321</span>
+                      <span> ohm41321</span>
                     </a>
                     <span>|</span>
-                    <span>Email: athitfkm@gmail.com</span>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>✉️ athitfkm@gmail.com</span>
+                    <span>|</span>
+                    <a href="https://tipme.in.th/athitfkm" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', transition: 'color 0.3s', display: 'flex', alignItems: 'center' }} onMouseEnter={(e) => e.currentTarget.style.color = '#ff6b6b'} onMouseLeave={(e) => e.currentTarget.style.color = 'inherit'}>
+                      <span>☕ Tipme</span>
+                    </a>
                   </div>
                 </footer>
               </main>

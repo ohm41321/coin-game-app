@@ -141,37 +141,45 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
             )}
             <p>{t('playerView.allocateCoinsMessage', { allocationBudget })}</p>
             {/* ... allocation rows ... */}
-            <div className='allocation-row'>
-                <div className='label-group'>
-                    <label>{t('playerView.foodHousingLabel')}</label>
-                    <p className='category-description'>{t('playerView.foodHousingDescription')}</p>
-                </div>
-                <input style={{width: '70px'}} type="number" value={allocation.food} onChange={e => handleAllocationChange('food', e.target.value)} step="1" />
+            <div style={{ marginBottom: '1rem' }}>
+              <div className='allocation-row'>
+                  <div className='label-group'>
+                      <label>{t('playerView.foodHousingLabel')}</label>
+                  </div>
+                  <input style={{width: '70px'}} type="number" value={allocation.food} onChange={e => handleAllocationChange('food', e.target.value)} step="1" />
+              </div>
+              <p className='category-description'>{t('playerView.foodHousingDescription')}</p>
             </div>
             {/* Other rows... */}
-            <div className='allocation-row'>
-                <div className='label-group'>
-                    <label>{t('playerView.shortTermInvestmentLabel')}</label>
-                    <p className='category-description'>{t('playerView.shortTermInvestmentDescription')}</p>
-                </div>
-                <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8}}>Total: {me.categoryTotals.short}</div>
-                <input style={{width: '70px'}} type="number" value={allocation.short} onChange={e => handleAllocationChange('short', e.target.value)} step="1" />
+            <div style={{ marginBottom: '1rem' }}>
+              <div className='allocation-row'>
+                  <div className='label-group'>
+                      <label>{t('playerView.shortTermInvestmentLabel')}</label>
+                  </div>
+                  <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8, whiteSpace: 'nowrap'}}>Total: {me.categoryTotals.short}</div>
+                  <input style={{width: '70px'}} type="number" value={allocation.short} onChange={e => handleAllocationChange('short', e.target.value)} step="1" />
+              </div>
+              <p className='category-description'>{t('playerView.shortTermInvestmentDescription')}</p>
             </div>
-            <div className='allocation-row'>
-                <div className='label-group'>
-                    <label>{t('playerView.longTermInvestmentLabel')}</label>
-                    <p className='category-description'>{t('playerView.longTermInvestmentDescription')}</p>
-                </div>
-                <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8}}>Total: {me.categoryTotals.long}</div>
-                <input style={{width: '70px'}} type="number" value={allocation.long} onChange={e => handleAllocationChange('long', e.target.value)} step="1" />
+            <div style={{ marginBottom: '1rem' }}>
+              <div className='allocation-row'>
+                  <div className='label-group'>
+                      <label>{t('playerView.longTermInvestmentLabel')}</label>
+                  </div>
+                  <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8, whiteSpace: 'nowrap'}}>Total: {me.categoryTotals.long}</div>
+                  <input style={{width: '70px'}} type="number" value={allocation.long} onChange={e => handleAllocationChange('long', e.target.value)} step="1" />
+              </div>
+              <p className='category-description'>{t('playerView.longTermInvestmentDescription')}</p>
             </div>
-            <div className='allocation-row'>
-                <div className='label-group'>
-                    <label>{t('playerView.emergencyFundLabel')}</label>
-                     <p className='category-description'>{t('playerView.emergencyFundDescription')}</p>
-                </div>
-                <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8}}>Total: {me.categoryTotals.emergency}</div>
-                <input style={{width: '70px'}} type="number" value={allocation.emergency} onChange={e => handleAllocationChange('emergency', e.target.value)} step="1" />
+            <div style={{ marginBottom: '1rem' }}>
+              <div className='allocation-row'>
+                  <div className='label-group'>
+                      <label>{t('playerView.emergencyFundLabel')}</label>
+                  </div>
+                  <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8, whiteSpace: 'nowrap'}}>Total: {me.categoryTotals.emergency}</div>
+                  <input style={{width: '70px'}} type="number" value={allocation.emergency} onChange={e => handleAllocationChange('emergency', e.target.value)} step="1" />
+              </div>
+              <p className='category-description'>{t('playerView.emergencyFundDescription')}</p>
             </div>
             <p style={{marginTop: '1.5rem'}}>{t('playerView.totalAllocated', { totalAllocated, allocationBudget })}</p>
             <button type="submit" disabled={isLoading || totalAllocated !== allocationBudget}>{t('playerView.submitButton')}</button>
