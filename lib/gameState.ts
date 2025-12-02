@@ -55,6 +55,7 @@ export async function getGameState(): Promise<GameState> {
     return state;
   } catch (error) {
     // File doesn't exist or is corrupted, initialize it
+    console.error('Failed to get game state, resetting. Error:', error);
     const initialState = getInitialState();
     await fs.writeFile(stateFilePath, JSON.stringify(initialState, null, 2));
     return initialState;

@@ -124,12 +124,13 @@ p {
 
 .allocation-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Changed from space-between to center */
   align-items: center;
   margin-bottom: 1rem;
   padding: 0.75rem;
   background: rgba(var(--tile-start-rgb), 0.2);
   border-radius: 8px;
+  flex-wrap: wrap;
 }
 
 .label-group {
@@ -464,7 +465,6 @@ input[type="number"] {
   }
 
   .label-group label {
-    white-space: nowrap;
     font-size: 0.9rem;
   }
 }

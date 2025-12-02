@@ -43,12 +43,18 @@ const GMDashboard: React.FC<GMDashboardProps> = ({ gameState }) => {
     switch (gamePhase) {
       case GamePhase.ALLOCATION:
         const submittedCount = playerList.filter(p => p.currentAllocation).length;
+        const allSubmitted = submittedCount === playerList.length;
         return (
           <div>
             <p>{t('gmDashboard.phaseAllocationMessage', { submittedCount, playerListLength: playerList.length })}</p>
-            <button onClick={() => handleGMAction('/api/gm/draw-event')} disabled={isLoading || submittedCount < playerList.length}>
+            <button onClick={() => handleGMAction('/api/gm/draw-event')} disabled={isLoading || !allSubmitted}>
               {t('gmDashboard.drawEventCardButton')}
             </button>
+            {!allSubmitted && (
+              <button onClick={() => handleGMAction('/api/gm/force-draw-event')} disabled={isLoading} className="secondary">
+                {t('gmDashboard.forceDrawEventCardButton')}
+              </button>
+            )}
           </div>
         );
       case GamePhase.EVENT_RESOLUTION:
@@ -58,6 +64,9 @@ const GMDashboard: React.FC<GMDashboardProps> = ({ gameState }) => {
             {currentEvent && <EventCardView event={currentEvent} />}
             <p>{t('gmDashboard.phaseEventResolutionMessage', { resolvedCount, playerListLength: playerList.length })}</p>
             <p>{t('gmDashboard.waitingForPlayerChoices')}</p>
+            <button onClick={() => handleGMAction('/api/gm/force-end-round')} disabled={isLoading} className="secondary">
+              {t('gmDashboard.forceEndRoundButton')}
+            </button>
           </div>
         );
       case GamePhase.EVENT_DRAWN:

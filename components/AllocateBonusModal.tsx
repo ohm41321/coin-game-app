@@ -17,9 +17,16 @@ const AllocateBonusModal: React.FC<AllocateBonusModalProps> = ({ playerId, bonus
   const remainingToDistribute = bonusAmount - totalDistributed;
 
   const handleDistributionChange = (category: keyof typeof distribution, value: string) => {
-    const numValue = parseInt(value) || 0;
+    const numValue = value === '' ? 0 : parseInt(value, 10);
     if (numValue < 0) return;
     setDistribution(prev => ({ ...prev, [category]: numValue }));
+  };
+
+  const handleStepChange = (category: keyof typeof distribution, step: number) => {
+    setDistribution(prev => {
+        const newValue = Math.max(0, prev[category] + step);
+        return { ...prev, [category]: newValue };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,13 +62,25 @@ const AllocateBonusModal: React.FC<AllocateBonusModalProps> = ({ playerId, bonus
         <form onSubmit={handleSubmit}>
             <div className={styles.formGrid}>
                 <label>📈 Short-term Investment</label>
-                <input type="number" value={distribution.short} onChange={e => handleDistributionChange('short', e.target.value)} min="0" />
+                <div className={styles.inputGroup}>
+                  <button type="button" onClick={() => handleStepChange('short', -1)}>-</button>
+                  <input type="number" value={distribution.short} onChange={e => handleDistributionChange('short', e.target.value)} min="0" />
+                  <button type="button" onClick={() => handleStepChange('short', 1)}>+</button>
+                </div>
                 
                 <label>🌳 Long-term Investment</label>
-                <input type="number" value={distribution.long} onChange={e => handleDistributionChange('long', e.target.value)} min="0" />
+                <div className={styles.inputGroup}>
+                  <button type="button" onClick={() => handleStepChange('long', -1)}>-</button>
+                  <input type="number" value={distribution.long} onChange={e => handleDistributionChange('long', e.target.value)} min="0" />
+                  <button type="button" onClick={() => handleStepChange('long', 1)}>+</button>
+                </div>
 
                 <label>🛡️ Emergency Fund</label>
-                <input type="number" value={distribution.emergency} onChange={e => handleDistributionChange('emergency', e.target.value)} min="0" />
+                <div className={styles.inputGroup}>
+                  <button type="button" onClick={() => handleStepChange('emergency', -1)}>-</button>
+                  <input type="number" value={distribution.emergency} onChange={e => handleDistributionChange('emergency', e.target.value)} min="0" />
+                  <button type="button" onClick={() => handleStepChange('emergency', 1)}>+</button>
+                </div>
             </div>
 
             <p className={remainingToDistribute !== 0 ? styles.remainingError : styles.remaining}>

@@ -18,17 +18,24 @@ const DistributeLossModal: React.FC<DistributeLossModalProps> = ({ player, lossA
   const remainingToDistribute = lossAmount - totalDistributed;
 
   const handleDistributionChange = (category: keyof typeof distribution, value: string) => {
-    const numValue = parseInt(value) || 0;
-    if (numValue < 0) return;
-    
-    // Prevent distributing more than is available in the category
     const maxAllowed = player.categoryTotals[category] ?? 0;
+    const numValue = value === '' ? 0 : parseInt(value, 10);
+    
+    if (numValue < 0) return;
     if (numValue > maxAllowed) {
-        setError(`You only have ${maxAllowed} in ${category}.`);
+        setDistribution(prev => ({ ...prev, [category]: maxAllowed }));
         return;
     }
-    setError('');
     setDistribution(prev => ({ ...prev, [category]: numValue }));
+  };
+
+  const handleStepChange = (category: keyof typeof distribution, step: number) => {
+    const maxAllowed = player.categoryTotals[category] ?? 0;
+    setDistribution(prev => {
+        const currentValue = prev[category];
+        const newValue = Math.max(0, currentValue + step);
+        return { ...prev, [category]: Math.min(newValue, maxAllowed) };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -62,13 +69,25 @@ const DistributeLossModal: React.FC<DistributeLossModalProps> = ({ player, lossA
         <form onSubmit={handleSubmit}>
             <div className={styles.formGrid}>
                 <label>Short-term ({player.categoryTotals.short} available)</label>
-                <input type="number" value={distribution.short} onChange={e => handleDistributionChange('short', e.target.value)} min="0" max={player.categoryTotals.short} />
+                <div className={styles.inputGroup}>
+                    <button type="button" onClick={() => handleStepChange('short', -1)}>-</button>
+                    <input type="number" value={distribution.short} onChange={e => handleDistributionChange('short', e.target.value)} min="0" max={player.categoryTotals.short} />
+                    <button type="button" onClick={() => handleStepChange('short', 1)}>+</button>
+                </div>
 
                 <label>Long-term ({player.categoryTotals.long} available)</label>
-                <input type="number" value={distribution.long} onChange={e => handleDistributionChange('long', e.target.value)} min="0" max={player.categoryTotals.long} />
+                <div className={styles.inputGroup}>
+                    <button type="button" onClick={() => handleStepChange('long', -1)}>-</button>
+                    <input type="number" value={distribution.long} onChange={e => handleDistributionChange('long', e.target.value)} min="0" max={player.categoryTotals.long} />
+                    <button type="button" onClick={() => handleStepChange('long', 1)}>+</button>
+                </div>
 
                 <label>Emergency ({player.categoryTotals.emergency} available)</label>
-                <input type="number" value={distribution.emergency} onChange={e => handleDistributionChange('emergency', e.target.value)} min="0" max={player.categoryTotals.emergency} />
+                <div className={styles.inputGroup}>
+                    <button type="button" onClick={() => handleStepChange('emergency', -1)}>-</button>
+                    <input type="number" value={distribution.emergency} onChange={e => handleDistributionChange('emergency', e.target.value)} min="0" max={player.categoryTotals.emergency} />
+                    <button type="button" onClick={() => handleStepChange('emergency', 1)}>+</button>
+                </div>
             </div>
             <p className={styles.remaining}>
                 Amount to pay: {totalDistributed} / {lossAmount}

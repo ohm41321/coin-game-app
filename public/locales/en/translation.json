@@ -70,6 +70,8 @@
     "emergency": "Emergency:",
     "phaseAllocationMessage": "{{submittedCount}} / {{playerListLength}} players have submitted allocations.",
     "drawEventCardButton": "Draw Event Card",
+    "forceDrawEventCardButton": "Force Draw Event",
+    "forceEndRoundButton": "Force End Round",
     "phaseEventResolutionMessage": "{{resolvedCount}} / {{playerListLength}} players have resolved the event.",
     "waitingForPlayerChoices": "Waiting for players to make their choices...",
     "phaseEventDrawnMessage": "All events are resolved. You can now end the round.",

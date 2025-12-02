@@ -70,6 +70,8 @@
     "emergency": "ฉุกเฉิน:",
     "phaseAllocationMessage": "ผู้เล่น {{submittedCount}} / {{playerListLength}} คนส่งการจัดสรรแล้ว",
     "drawEventCardButton": "จับการ์ดเหตุการณ์",
+    "forceDrawEventCardButton": "บังคับจั่วการ์ดอีเวนต์",
+    "forceEndRoundButton": "บังคับจบรอบ",
     "phaseEventResolutionMessage": "ผู้เล่น {{resolvedCount}} / {{playerListLength}} คนแก้ไขเหตุการณ์แล้ว",
     "waitingForPlayerChoices": "กำลังรอผู้เล่นเลือก...",
     "phaseEventDrawnMessage": "เหตุการณ์ทั้งหมดได้รับการแก้ไขแล้ว คุณสามารถจบรอบได้เลย",

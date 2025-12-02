@@ -41,8 +41,11 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
   }, [gameState.gamePhase, me.currentAllocation]);
 
   const handleAllocationChange = (category: keyof PlayerAllocation, value: string) => {
-    const numValue = parseInt(value, 10);
-    if (isNaN(numValue) || numValue < 0) return;
+    // Allow clearing the input. An empty input will be treated as 0.
+    const numValue = value === '' ? 0 : parseInt(value, 10);
+    if (isNaN(numValue) || numValue < 0) {
+      return;
+    }
     setAllocation((prev) => ({ ...prev, [category]: numValue }));
   };
 
@@ -87,6 +90,13 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleAllocationStepChange = (category: keyof PlayerAllocation, step: number) => {
+    setAllocation((prev) => {
+        const newValue = Math.max(0, prev[category] + step);
+        return { ...prev, [category]: newValue };
+    });
   };
 
   const renderContent = () => {
@@ -146,7 +156,11 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
                   <div className='label-group'>
                       <label>{t('playerView.foodHousingLabel')}</label>
                   </div>
-                  <input style={{width: '70px'}} type="number" value={allocation.food} onChange={e => handleAllocationChange('food', e.target.value)} step="1" />
+                  <div style={{display: 'flex', alignItems: 'center'}}>
+                    <button type="button" onClick={() => handleAllocationStepChange('food', -1)} style={{width: '30px', height: '30px', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>-</button>
+                    <input style={{width: '70px', margin: '0 5px'}} type="number" value={allocation.food} onChange={e => handleAllocationChange('food', e.target.value)} step="1" />
+                    <button type="button" onClick={() => handleAllocationStepChange('food', 1)} style={{width: '30px', height: '30px', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>+</button>
+                  </div>
               </div>
               <p className='category-description'>{t('playerView.foodHousingDescription')}</p>
             </div>
@@ -157,7 +171,11 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
                       <label>{t('playerView.shortTermInvestmentLabel')}</label>
                   </div>
                   <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8, whiteSpace: 'nowrap'}}>Total: {me.categoryTotals.short}</div>
-                  <input style={{width: '70px'}} type="number" value={allocation.short} onChange={e => handleAllocationChange('short', e.target.value)} step="1" />
+                  <div style={{display: 'flex', alignItems: 'center'}}>
+                    <button type="button" onClick={() => handleAllocationStepChange('short', -1)} style={{width: '30px', height: '30px', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>-</button>
+                    <input style={{width: '70px', margin: '0 5px'}} type="number" value={allocation.short} onChange={e => handleAllocationChange('short', e.target.value)} step="1" />
+                    <button type="button" onClick={() => handleAllocationStepChange('short', 1)} style={{width: '30px', height: '30px', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>+</button>
+                  </div>
               </div>
               <p className='category-description'>{t('playerView.shortTermInvestmentDescription')}</p>
             </div>
@@ -167,7 +185,11 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
                       <label>{t('playerView.longTermInvestmentLabel')}</label>
                   </div>
                   <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8, whiteSpace: 'nowrap'}}>Total: {me.categoryTotals.long}</div>
-                  <input style={{width: '70px'}} type="number" value={allocation.long} onChange={e => handleAllocationChange('long', e.target.value)} step="1" />
+                  <div style={{display: 'flex', alignItems: 'center'}}>
+                    <button type="button" onClick={() => handleAllocationStepChange('long', -1)} style={{width: '30px', height: '30px', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>-</button>
+                    <input style={{width: '70px', margin: '0 5px'}} type="number" value={allocation.long} onChange={e => handleAllocationChange('long', e.target.value)} step="1" />
+                    <button type="button" onClick={() => handleAllocationStepChange('long', 1)} style={{width: '30px', height: '30px', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>+</button>
+                  </div>
               </div>
               <p className='category-description'>{t('playerView.longTermInvestmentDescription')}</p>
             </div>
@@ -177,7 +199,11 @@ const PlayerView: React.FC<PlayerViewProps> = ({ gameState, me }) => {
                       <label>{t('playerView.emergencyFundLabel')}</label>
                   </div>
                   <div style={{flexGrow: 1, textAlign: 'right', marginRight: '1rem', opacity: 0.8, whiteSpace: 'nowrap'}}>Total: {me.categoryTotals.emergency}</div>
-                  <input style={{width: '70px'}} type="number" value={allocation.emergency} onChange={e => handleAllocationChange('emergency', e.target.value)} step="1" />
+                  <div style={{display: 'flex', alignItems: 'center'}}>
+                    <button type="button" onClick={() => handleAllocationStepChange('emergency', -1)} style={{width: '30px', height: '30px', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>-</button>
+                    <input style={{width: '70px', margin: '0 5px'}} type="number" value={allocation.emergency} onChange={e => handleAllocationChange('emergency', e.target.value)} step="1" />
+                    <button type="button" onClick={() => handleAllocationStepChange('emergency', 1)} style={{width: '30px', height: '30px', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>+</button>
+                  </div>
               </div>
               <p className='category-description'>{t('playerView.emergencyFundDescription')}</p>
             </div>
