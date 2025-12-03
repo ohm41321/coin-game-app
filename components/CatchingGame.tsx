@@ -87,7 +87,7 @@ const CatchingGame: React.FC<CatchingGameProps> = ({ onClose }) => {
         let scoreGainedThisFrame = 0;
   
         // Move coins
-        let currentCoins = coinsRef.current.map(coin => ({ ...coin, y: coin.y + COIN_SPEED * deltaTime }));
+        const currentCoins = coinsRef.current.map(coin => ({ ...coin, y: coin.y + COIN_SPEED * deltaTime }));
   
         // Filter out caught and off-screen coins
         const remainingCoins = currentCoins.filter(coin => {

@@ -312,7 +312,7 @@ const SinglePlayerGame: React.FC = () => {
               <h4>{t('singlePlayerGame.roundSummary')}</h4>
               <ul>
                 {player.lastRoundSummary.map((line, index) => (
-                  <li key={index}>{line}</li>
+                  <li key={index}>{t(line.key, line.vars)}</li>
                 ))}
               </ul>
               <button onClick={handleNextPhase}>{t('singlePlayerGame.nextPhaseButton')}</button>
@@ -334,8 +334,8 @@ const SinglePlayerGame: React.FC = () => {
         </>
       ) : (
         <div>
-          <button onClick={handleReset} className="secondary" style={{ position: 'absolute', top: '7rem', right: '1rem' }}>{t('singlePlayerGame.resetButton')}</button>
           <div style={{textAlign: 'left', marginBottom: '2rem', padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '8px'}}>
+            <button onClick={handleReset} className="secondary" style={{ marginBottom: '1rem', display: 'block', width: 'fit-content', marginLeft: 'auto', marginRight: 'auto' }}>{t('singlePlayerGame.resetButton')}</button>
             <p style={{margin: 0}}><strong>{t('playerView.playerStatusName', { name: player.name })}</strong></p>
             <p style={{margin: 0}}>{t('playerView.playerStatusTotalCoins', { totalCoins: Math.floor(player.totalCoins) })}</p>
             {player.foodDebt > 0 && <p style={{margin: 0, color: '#fca5a5'}}>{t('playerView.playerStatusFoodDebt', { foodDebt: player.foodDebt })}</p>}

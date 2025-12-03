@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       
       if (debt > 0) {
         player.eventDebt += debt;
-        player.eventDebtLog.push(`Incurred ${debt} debt from "${event.title}"`);
+        player.eventDebtLog.push(`Incurred ${debt} debt from "${event.title.en}"`);
       }
 
       player.actionRequired = null;

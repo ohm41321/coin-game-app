@@ -1,5 +1,5 @@
 // lib/roundCalculator.ts
-import { GameState, Player, PlayerAllocation, EventCard, GamePhase } from './types';
+import { GameState, Player, PlayerAllocation, EventCard, GamePhase, RoundSummaryItem } from './types';
 
 const FOOD_HOUSING_COST = 5;
 const BASE_SHORT_TERM_INVESTMENT_RATIO = 3;
@@ -56,16 +56,16 @@ export function calculateRound(gameState: GameState): GameState {
 
     for (const playerId in gameState.players) {
         const player = gameState.players[playerId];
-        const summary: string[] = [];
+        const summary: RoundSummaryItem[] = [];
         player.lastRoundSummary = null; // Clear previous summary
 
-        let { currentAllocation } = player;
+        const { currentAllocation } = player;
 
         // At the start of the calculation, "pay" the debt from the previous round
         // by noting it and then clearing the field for the current round.
         const debtToPay = player.eventDebt;
         if (debtToPay > 0) {
-            summary.push(`Paid ${debtToPay} coins for previous event debt.`);
+            summary.push({ key: 'summary.paidDebt', vars: { amount: debtToPay } });
         }
         player.eventDebt = 0;
         player.eventDebtLog = [];
@@ -76,11 +76,11 @@ export function calculateRound(gameState: GameState): GameState {
         if (currentEvent?.effect.type === 'COIN_CHANGE' && currentEvent.effect.value < 0) {
             // Negative changes are applied immediately
             const { category, value } = currentEvent.effect;
-            summary.push(`Lost ${Math.abs(value)} coins from event: ${currentEvent.title}.`);
+            summary.push({ key: 'summary.lostCoinsFromEvent', vars: { amount: Math.abs(value), event: currentEvent.title.en } });
             if (category === 'total') {
                 player.totalCoins += value;
             } else {
-                currentAllocation[category] = Math.max(0, currentAllocation[category] + value);
+                player.categoryTotals[category] = Math.max(0, player.categoryTotals[category] + value);
             }
         }
         
@@ -92,9 +92,9 @@ export function calculateRound(gameState: GameState): GameState {
         
         const foodBalanceBeforePayment = player.foodDebt + currentRoundFoodCost;
         if (currentRoundFoodCost > 0) {
-            summary.push(`Food/Housing cost this round: ${currentRoundFoodCost} coins.`);
+            summary.push({ key: 'summary.foodHousingCost', vars: { amount: currentRoundFoodCost } });
         } else {
-            summary.push(`Food/Housing cost was waived this round!`);
+            summary.push({ key: 'summary.foodHousingWaived' });
         }
 
 
@@ -106,12 +106,12 @@ export function calculateRound(gameState: GameState): GameState {
         player.foodDebt = foodBalanceBeforePayment - foodPayment;
 
         if (foodPayment > 0) {
-            summary.push(`You paid ${foodPayment} coins for food/housing.`);
+            summary.push({ key: 'summary.paidFoodHousing', vars: { amount: foodPayment } });
         }
         if (player.foodDebt > 0) {
-            summary.push(`You have ${player.foodDebt} coins of food debt remaining.`);
+            summary.push({ key: 'summary.foodDebtRemaining', vars: { amount: player.foodDebt } });
         } else if (player.foodDebt < 0) {
-            summary.push(`You have ${-player.foodDebt} coins of food credit.`);
+            summary.push({ key: 'summary.foodCredit', vars: { amount: -player.foodDebt } });
         }
         
         const shortTermPayment = Math.min(currentAllocation.short, availableCoins);
@@ -129,8 +129,8 @@ export function calculateRound(gameState: GameState): GameState {
         // The remaining availableCoins is the new total
         player.totalCoins = availableCoins;
 
-        summary.push(`Added to Short-term: ${shortTermPayment}, Long-term: ${longTermPayment}, Emergency: ${emergencyContribution}.`);
-        summary.push(`You have ${player.totalCoins} liquid coins remaining.`);
+        summary.push({ key: 'summary.addedToCategories', vars: { short: shortTermPayment, long: longTermPayment, emergency: emergencyContribution } });
+        summary.push({ key: 'summary.liquidCoinsRemaining', vars: { amount: player.totalCoins } });
 
         // Step 5: Calculate income for next round, penalized by total food debt and event debt from the previous round
         const incomeFromShort = Math.floor(player.categoryTotals.short / shortTermRatio);
@@ -138,17 +138,17 @@ export function calculateRound(gameState: GameState): GameState {
         let incomeBoost = 0;
         if (currentEvent?.effect.type === 'INCOME_BOOST') {
             incomeBoost = currentEvent.effect.value;
-            summary.push(`Gained an income boost of ${incomeBoost} from event: ${currentEvent.title}.`);
+            summary.push({ key: 'summary.incomeBoost', vars: { amount: incomeBoost, event: currentEvent.title.en } });
         }
         // The penalty is the total outstanding food debt plus the event debt we are "paying" this turn
         player.income = 10 + incomeFromShort + incomeFromLong + incomeBoost - player.foodDebt - debtToPay;
         
-        summary.push(`Base income for next round: 10 coins.`);
-        summary.push(`Income from Short-term: ${incomeFromShort} coins.`);
-        summary.push(`Income from Long-term: ${incomeFromLong} coins.`);
-        if (player.foodDebt > 0) summary.push(`Penalty from food debt: -${player.foodDebt} coins.`);
-        if (debtToPay > 0) summary.push(`Penalty from event debt: -${debtToPay} coins.`);
-        summary.push(`Total income for next round: ${player.income} coins.`);
+        summary.push({ key: 'summary.baseIncome', vars: { amount: 10 } });
+        summary.push({ key: 'summary.incomeFromShort', vars: { amount: incomeFromShort } });
+        summary.push({ key: 'summary.incomeFromLong', vars: { amount: incomeFromLong } });
+        if (player.foodDebt > 0) summary.push({ key: 'summary.penaltyFoodDebt', vars: { amount: player.foodDebt } });
+        if (debtToPay > 0) summary.push({ key: 'summary.penaltyEventDebt', vars: { amount: debtToPay } });
+        summary.push({ key: 'summary.totalIncomeNextRound', vars: { amount: player.income } });
 
         player.lastRoundSummary = summary;
 

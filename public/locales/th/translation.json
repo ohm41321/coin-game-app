@@ -158,5 +158,23 @@
     "longTermBonus": "เมื่อจบเกม คุณจะได้รับโบนัสตามยอดรวมการลงทุนระยะยาวของคุณ",
     "winning": "การชนะเกม",
     "winningText": "ผู้เล่นที่มีเหรียญมากที่สุดเมื่อจบรอบที่ 5 จะเป็นผู้ชนะ"
+  },
+  "summary": {
+    "paidDebt": "ชำระหนี้จากเหตุการณ์ก่อนหน้า {{amount}} เหรียญ",
+    "lostCoinsFromEvent": "เสีย {{amount}} เหรียญจากเหตุการณ์: {{event}}",
+    "foodHousingCost": "ค่าอาหาร/ที่อยู่รอบนี้: {{amount}} เหรียญ",
+    "foodHousingWaived": "ได้รับการยกเว้นค่าอาหาร/ที่อยู่รอบนี้!",
+    "paidFoodHousing": "คุณจ่ายค่าอาหาร/ที่อยู่ {{amount}} เหรียญ",
+    "foodDebtRemaining": "คุณมีหนี้ค่าอาหารเหลืออยู่ {{amount}} เหรียญ",
+    "foodCredit": "คุณมีเครดิตค่าอาหาร {{amount}} เหรียญ",
+    "addedToCategories": "เพิ่มเข้า-ระยะสั้น: {{short}}, ระยะยาว: {{long}}, ฉุกเฉิน: {{emergency}}",
+    "liquidCoinsRemaining": "คุณมีเหรียญสภาพคล่องเหลืออยู่ {{amount}} เหรียญ",
+    "incomeBoost": "ได้รับรายได้เพิ่ม {{amount}} จากเหตุการณ์: {{event}}",
+    "baseIncome": "รายได้พื้นฐานสำหรับรอบถัดไป: {{amount}} เหรียญ",
+    "incomeFromShort": "รายได้จากการลงทุนระยะสั้น: {{amount}} เหรียญ",
+    "incomeFromLong": "รายได้จากการลงทุนระยะยาว: {{amount}} เหรียญ",
+    "penaltyFoodDebt": "หักจากหนี้ค่าอาหาร: -{{amount}} เหรียญ",
+    "penaltyEventDebt": "หักจากหนี้เหตุการณ์: -{{amount}} เหรียญ",
+    "totalIncomeNextRound": "รายได้ทั้งหมดสำหรับรอบถัดไป: {{amount}} เหรียญ"
   }
 }

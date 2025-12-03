@@ -2,9 +2,10 @@
 import React from 'react';
 import styles from './Modal.module.css';
 import { useTranslation } from 'react-i18next';
+import { RoundSummaryItem } from '@/lib/types';
 
 interface RoundSummaryModalProps {
-  summary: string[];
+  summary: RoundSummaryItem[];
   onClose: () => void;
   isLoading: boolean;
 }
@@ -17,7 +18,7 @@ const RoundSummaryModal: React.FC<RoundSummaryModalProps> = ({ summary, onClose,
         <h3>{t('roundSummaryModal.title')}</h3>
         <ul style={{ textAlign: 'left', paddingLeft: '1.5rem', lineHeight: '1.6' }}>
           {summary.map((item, index) => (
-            <li key={index}>{item}</li>
+            <li key={index}>{t(item.key, item.vars)}</li>
           ))}
         </ul>
         <button onClick={onClose} disabled={isLoading} style={{ marginTop: '1rem', width: '100%' }}>

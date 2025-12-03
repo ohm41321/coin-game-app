@@ -158,5 +158,23 @@
     "longTermBonus": "At the end of the game, you will receive a bonus based on your total Long-term investments.",
     "winning": "Winning the Game",
     "winningText": "The player with the most coins at the end of the 5th round wins the game."
+  },
+  "summary": {
+    "paidDebt": "Paid {{amount}} coins for previous event debt.",
+    "lostCoinsFromEvent": "Lost {{amount}} coins from event: {{event}}.",
+    "foodHousingCost": "Food/Housing cost this round: {{amount}} coins.",
+    "foodHousingWaived": "Food/Housing cost was waived this round!",
+    "paidFoodHousing": "You paid {{amount}} coins for food/housing.",
+    "foodDebtRemaining": "You have {{amount}} coins of food debt remaining.",
+    "foodCredit": "You have {{amount}} coins of food credit.",
+    "addedToCategories": "Added to Short-term: {{short}}, Long-term: {{long}}, Emergency: {{emergency}}.",
+    "liquidCoinsRemaining": "You have {{amount}} liquid coins remaining.",
+    "incomeBoost": "Gained an income boost of {{amount}} from event: {{event}}.",
+    "baseIncome": "Base income for next round: {{amount}} coins.",
+    "incomeFromShort": "Income from Short-term: {{amount}} coins.",
+    "incomeFromLong": "Income from Long-term: {{amount}} coins.",
+    "penaltyFoodDebt": "Penalty from food debt: -{{amount}} coins.",
+    "penaltyEventDebt": "Penalty from event debt: -{{amount}} coins.",
+    "totalIncomeNextRound": "Total income for next round: {{amount}} coins."
   }
 }

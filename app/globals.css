@@ -164,9 +164,14 @@ a {
 }
 
 h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  font-size: 2rem; /* Adjusted from 2.5rem to 2rem */
   font-weight: 600;
+}
+
+/* Specific styling for the h1 in the header */
+.header h1 {
+  margin-bottom: 0; /* Remove margin to ensure vertical centering */
+  font-size: 2rem; /* Keep a consistent size for desktop */
 }
 
 h2 {

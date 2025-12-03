@@ -26,7 +26,12 @@ export interface Player {
   hasConfirmed: boolean; // This will now mean "has resolved their action"
   lastUpdate: number;
   foodCostWaived: boolean;
-  lastRoundSummary: string[] | null;
+  lastRoundSummary: RoundSummaryItem[] | null;
+}
+
+export interface RoundSummaryItem {
+  key: string;
+  vars?: Record<string, string | number>;
 }
 
 export interface GMState {
