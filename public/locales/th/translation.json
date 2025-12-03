@@ -10,6 +10,7 @@
     "player": "ผู้เล่น",
     "gm": "ผู้คุมเกม",
     "playerButton": "เข้าร่วมในฐานะผู้เล่น",
+    "singlePlayerButton": "เล่นคนเดียว",
     "gmButton": "เข้าสู่ระบบในฐานะผู้คุมเกม"
   },
   "playerLogin": {
@@ -118,5 +119,30 @@
     "title": "สรุปผลสิ้นสุดรอบ",
     "continueButton": "เริ่มรอบถัดไป",
     "loadingButton": "โปรดรอ..."
+  },
+  "singlePlayerGame": {
+    "title": "เกมเล่นคนเดียว",
+    "description": "นี่คือเกมเล่นคนเดียว",
+    "startButton": "เริ่มเกม",
+    "round": "รอบที่ {{round}}",
+    "nextPhaseButton": "เฟสต่อไป",
+    "currentPhase": "เฟสปัจจุบัน: {{phase}}",
+    "eventTitle": "เหตุการณ์",
+    "playerStats": "สถิติผู้เล่น",
+    "totalCoins": "เหรียญทั้งหมด: {{coins}}",
+    "income": "รายได้: {{income}}",
+    "foodDebt": "หนี้ค่าอาหาร: {{debt}}",
+    "shortTerm": "ระยะสั้น: {{amount}}",
+    "longTerm": "ระยะยาว: {{amount}}",
+    "emergencyFund": "กองทุนฉุกเฉิน: {{amount}}",
+    "allocationTitle": "การจัดสรร",
+    "foodAllocation": "อาหาร",
+    "shortTermAllocation": "ระยะสั้น",
+    "longTermAllocation": "ระยะยาว",
+    "emergencyAllocation": "ฉุกเฉิน",
+    "roundSummary": "สรุปผลรอบ",
+    "resetButton": "รีเซ็ตเกม",
+    "resetConfirm": "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตเกม",
+    "singlePlayerModeTitle": "โหมดผู้เล่นคนเดียว"
   }
 }

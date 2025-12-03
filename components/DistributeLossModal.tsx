@@ -6,13 +6,11 @@ import styles from './Modal.module.css';
 interface DistributeLossModalProps {
   player: Player;
   lossAmount: number;
-  onClose: () => void; // Allow closing if needed, though we might not
+  onSubmit: (distribution: { short: number; long: number; emergency: number }) => void;
 }
 
-const DistributeLossModal: React.FC<DistributeLossModalProps> = ({ player, lossAmount, onClose }) => {
+const DistributeLossModal: React.FC<DistributeLossModalProps> = ({ player, lossAmount, onSubmit }) => {
   const [distribution, setDistribution] = useState({ short: 0, long: 0, emergency: 0 });
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const totalDistributed = Object.values(distribution).reduce((sum, val) => sum + val, 0);
   const remainingToDistribute = lossAmount - totalDistributed;
@@ -38,25 +36,9 @@ const DistributeLossModal: React.FC<DistributeLossModalProps> = ({ player, lossA
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    try {
-      const response = await fetch('/api/player/resolve-event', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ playerId: player.id, lossDistribution: { ...distribution, food: 0 } }), // Ensure food is always 0
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Failed to submit.');
-      // On success, polling will update the UI, and this modal will disappear.
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+    onSubmit(distribution);
   };
 
   return (
@@ -93,10 +75,9 @@ const DistributeLossModal: React.FC<DistributeLossModalProps> = ({ player, lossA
                 Amount to pay: {totalDistributed} / {lossAmount}
             </p>
             
-            <button type="submit" disabled={isLoading}>
-                {isLoading ? 'Submitting...' : 'Submit Payment'}
-            </button> <br />
-            {error && <p className={styles.error}>{error}</p>}
+            <button type="submit">
+                Submit Payment
+            </button>
         </form>
       </div>
     </div>

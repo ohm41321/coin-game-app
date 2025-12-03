@@ -1,17 +1,15 @@
 // components/AllocateBonusModal.tsx
 import React, { useState } from 'react';
-import { Player } from '../lib/types';
 import styles from './Modal.module.css';
 
 interface AllocateBonusModalProps {
-  playerId: string;
   bonusAmount: number;
+  onSubmit: (distribution: { short: number; long: number; emergency: number }) => void;
 }
 
-const AllocateBonusModal: React.FC<AllocateBonusModalProps> = ({ playerId, bonusAmount }) => {
+const AllocateBonusModal: React.FC<AllocateBonusModalProps> = ({ bonusAmount, onSubmit }) => {
   const [distribution, setDistribution] = useState({ short: 0, long: 0, emergency: 0 });
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const totalDistributed = Object.values(distribution).reduce((sum, val) => sum + val, 0);
   const remainingToDistribute = bonusAmount - totalDistributed;
@@ -29,28 +27,14 @@ const AllocateBonusModal: React.FC<AllocateBonusModalProps> = ({ playerId, bonus
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (remainingToDistribute !== 0) {
       setError(`You must allocate exactly ${bonusAmount} coins.`);
       return;
     }
     setError('');
-    setIsLoading(true);
-
-    try {
-      const response = await fetch('/api/player/allocate-bonus', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ playerId, bonusAllocation: distribution }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Failed to submit.');
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+    onSubmit(distribution);
   };
 
   return (
@@ -87,8 +71,8 @@ const AllocateBonusModal: React.FC<AllocateBonusModalProps> = ({ playerId, bonus
                 Remaining to allocate: {remainingToDistribute}
             </p>
             
-            <button type="submit" disabled={isLoading || remainingToDistribute !== 0}>
-                {isLoading ? 'Submitting...' : 'Confirm Allocation'}
+            <button type="submit" disabled={remainingToDistribute !== 0}>
+                Confirm Allocation
             </button>
             {error && <p className={styles.error}>{error}</p>}
         </form>

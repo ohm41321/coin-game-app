@@ -7,17 +7,15 @@ interface CoverLossModalProps {
   player: Player;
   lossAmount: number;
   targetCategory: 'short' | 'long';
+  onSubmit: (coverage: { fromTarget: number; fromEmergency: number }) => void;
 }
 
-const CoverLossModal: React.FC<CoverLossModalProps> = ({ player, lossAmount, targetCategory }) => {
+const CoverLossModal: React.FC<CoverLossModalProps> = ({ player, lossAmount, targetCategory, onSubmit }) => {
   const [fromTarget, setFromTarget] = useState(0);
   const [fromEmergency, setFromEmergency] = useState(0);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const totalCovered = fromTarget + fromEmergency;
-  const remainingToCover = lossAmount - totalCovered;
-
+  
   const maxFromTarget = player.categoryTotals[targetCategory];
   const maxFromEmergency = player.categoryTotals.emergency;
 
@@ -55,31 +53,9 @@ const CoverLossModal: React.FC<CoverLossModalProps> = ({ player, lossAmount, tar
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    try {
-      const response = await fetch('/api/player/cover-loss', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            playerId: player.id, 
-            lossCoverage: { 
-                fromTarget,
-                fromEmergency,
-                targetCategory,
-            }
-        }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Failed to submit.');
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+    onSubmit({ fromTarget, fromEmergency });
   };
 
   return (
@@ -110,10 +86,9 @@ const CoverLossModal: React.FC<CoverLossModalProps> = ({ player, lossAmount, tar
                 Amount to pay: {totalCovered} / {lossAmount}
             </p>
             
-            <button type="submit" disabled={isLoading}>
-                {isLoading ? 'Submitting...' : 'Confirm Payment'}
+            <button type="submit">
+                Confirm Payment
             </button>
-            {error && <p className={styles.error}>{error}</p>}
         </form>
       </div>
     </div>

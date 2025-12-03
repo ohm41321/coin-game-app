@@ -11,6 +11,7 @@ import GMDashboard from '../components/GMDashboard';
 import PlayerView from '../components/PlayerView';
 import Leaderboard from '../components/Leaderboard';
 import CatchingGame from '../components/CatchingGame';
+import SinglePlayerGame from '../components/SinglePlayerGame';
 import { useTranslation } from 'react-i18next';
 
 // This is the main component that orchestrates the entire UI.
@@ -20,13 +21,13 @@ export default function Home() {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [error, setError] = useState<string>('');
   
-  const [role, setRole] = useState<'player' | 'gm' | null>(null);
+  const [role, setRole] = useState<'player' | 'gm' | 'single-player' | null>(null);
   const [showCatchGame, setShowCatchGame] = useState(false);
 
   // This effect runs only on the client, after the initial render, to avoid hydration mismatch.
   useEffect(() => {
     const savedRole = localStorage.getItem('coin_game_role');
-    if (savedRole === 'player' || savedRole === 'gm') {
+    if (savedRole === 'player' || savedRole === 'gm' || savedRole === 'single-player') {
       setRole(savedRole);
     }
   }, []);
@@ -34,7 +35,7 @@ export default function Home() {
   const [playerId, setPlayerId] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const handleSetRole = (newRole: 'player' | 'gm' | null) => {
+  const handleSetRole = (newRole: 'player' | 'gm' | 'single-player' | null) => {
     setRole(newRole);
     if (newRole) {
       localStorage.setItem('coin_game_role', newRole);
@@ -67,7 +68,7 @@ export default function Home() {
   // --- Main Game State Polling Logic ---
   useEffect(() => {
     // IMPORTANT: This check ensures this code only runs on the client
-    if (typeof window === 'undefined') {
+    if (typeof window === 'undefined' || role === 'single-player') {
       return;
     }
   
@@ -106,11 +107,14 @@ export default function Home() {
       isMounted = false;
       clearInterval(interval);
     };
-  }, []); // Empty dependency array means this runs once on mount
+  }, [role]);
 
   // --- Render Logic ---
   
   const renderContent = () => {
+    if (role === 'single-player') {
+      return <SinglePlayerGame onBack={() => handleSetRole(null)} />;
+    }
     // Show loading spinner initially
     if (isLoading || !gameState) {
       return <div className="spinner"></div>;
@@ -181,7 +185,7 @@ export default function Home() {
         <div className="header">
           <div className="left">
             {/* Conditionally render back button */}
-            {(role === 'gm' && !gameState?.gm.isLoggedIn) || (role === 'player' && !playerId) || (role === 'player' && playerId && !gameState?.players[playerId]) ? (
+            {role === 'single-player' || (role === 'gm' && !gameState?.gm.isLoggedIn) || (role === 'player' && !playerId) || (role === 'player' && playerId && !gameState?.players[playerId]) ? (
                 <button
                   type="button"
                   className="back-button"

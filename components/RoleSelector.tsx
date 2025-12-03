@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface RoleSelectorProps {
-  onSelectRole: (role: 'player' | 'gm') => void;
+  onSelectRole: (role: 'player' | 'gm' | 'single-player') => void;
   onPlayGame: () => void;
 }
 
@@ -43,6 +43,7 @@ const RoleSelector: React.FC<RoleSelectorProps> = ({ onSelectRole, onPlayGame })
       <p>{t('roleSelector.description')}</p>
       <div>
         <button onClick={() => onSelectRole('player')}>{t('roleSelector.playerButton')}</button>
+        <button onClick={() => onSelectRole('single-player')}>{t('roleSelector.singlePlayerButton')}</button>
         <button className="secondary" onClick={() => onSelectRole('gm')}>{t('roleSelector.gmButton')}</button>
       </div>
     </div>

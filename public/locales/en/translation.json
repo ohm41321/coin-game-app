@@ -10,6 +10,7 @@
     "player": "Player",
     "gm": "Game Master",
     "playerButton": "Join as Player",
+    "singlePlayerButton": "Single Player",
     "gmButton": "Login as Game Master"
   },
   "playerLogin": {
@@ -118,5 +119,30 @@
     "title": "End of Round Summary",
     "continueButton": "Start Next Round",
     "loadingButton": "Please wait..."
+  },
+  "singlePlayerGame": {
+    "title": "Single Player Game",
+    "description": "This is a single player game.",
+    "startButton": "Start Game",
+    "round": "Round {{round}}",
+    "nextPhaseButton": "Next Phase",
+    "currentPhase": "Current Phase: {{phase}}",
+    "eventTitle": "Event",
+    "playerStats": "Player Stats",
+    "totalCoins": "Total Coins: {{coins}}",
+    "income": "Income: {{income}}",
+    "foodDebt": "Food Debt: {{debt}}",
+    "shortTerm": "Short-term: {{amount}}",
+    "longTerm": "Long-term: {{amount}}",
+    "emergencyFund": "Emergency Fund: {{amount}}",
+    "allocationTitle": "Allocation",
+    "foodAllocation": "Food",
+    "shortTermAllocation": "Short-term",
+    "longTermAllocation": "Long-term",
+    "emergencyAllocation": "Emergency",
+    "roundSummary": "Round Summary",
+    "resetButton": "Reset Game",
+    "resetConfirm": "Are you sure you want to reset the game?",
+    "singlePlayerModeTitle": "Single Player Mode"
   }
 }
