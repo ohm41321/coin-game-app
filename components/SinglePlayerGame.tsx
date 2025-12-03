@@ -155,6 +155,7 @@ const SinglePlayerGame: React.FC = () => {
         newGameState.players = { ...newGameState.players, [player.id]: newPlayer };
         const event = drawEventCard();
         newGameState.currentEvent = event;
+        setHasAcknowledgedEvent(false); // Reset to ensure event card is shown first
         
         const effect = event.effect;
         if(effect.type === 'COIN_CHANGE' && effect.isPlayerChoice) {
