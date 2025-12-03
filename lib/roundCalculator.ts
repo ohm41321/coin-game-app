@@ -5,7 +5,7 @@ const FOOD_HOUSING_COST = 5;
 const BASE_SHORT_TERM_INVESTMENT_RATIO = 3;
 const BASE_LONG_TERM_INVESTMENT_RATIO = 4;
 const LONG_TERM_BONUS_RATIO = 2;
-const MAX_ROUNDS = 5;
+export const MAX_ROUNDS = 5;
 
 export function finalizeGame(gameState: GameState): GameState {
     // --- FINAL GAME OVER CALCULATION ---

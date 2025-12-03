@@ -529,9 +529,24 @@ input[type="number"] {
     font-size: 0.9rem;
   }
 
+  .header {
+    padding: 0.5rem; /* Reduced padding for header on mobile */
+  }
+
   .header h1 {
     font-size: 1.2rem;
     white-space: nowrap;
+    margin: 0; /* Remove vertical margin for h1 in header on mobile */
+  }
+
+  .header .left,
+  .header .right {
+    width: auto; /* Allow left and right sections to shrink on mobile */
+  }
+
+  .back-button {
+    padding: 0.4rem 0.6rem; /* Smaller padding on mobile */
+    font-size: 0.7rem;     /* Smaller font size on mobile */
   }
 
   .label-group label {

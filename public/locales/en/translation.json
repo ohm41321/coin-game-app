@@ -11,7 +11,8 @@
     "gm": "Game Master",
     "playerButton": "Join as Player",
     "singlePlayerButton": "Single Player",
-    "gmButton": "Login as Game Master"
+    "gmButton": "Login as Game Master",
+    "howToPlayButton": "How to Play"
   },
   "playerLogin": {
     "title": "Player Login",
@@ -144,5 +145,18 @@
     "resetButton": "Reset Game",
     "resetConfirm": "Are you sure you want to reset the game?",
     "singlePlayerModeTitle": "Single Player Mode"
+  },
+  "howToPlay": {
+    "title": "How to Play",
+    "objective": "Objective",
+    "objectiveText": "The goal of the game is to have the most coins at the end of 5 rounds. You earn coins by managing your income and making smart investments.",
+    "gameplay": "Gameplay",
+    "round": "The game is played in 5 rounds. Each round consists of an allocation phase and an event phase.",
+    "allocation": "In the allocation phase, you decide how to spend your income. You can allocate it to Food/Housing, Short-term Investments, Long-term Investments, and an Emergency Fund.",
+    "events": "In the event phase, a random event will occur. Some events are good, some are bad. You may need to make decisions to resolve them.",
+    "investments": "Short-term and Long-term investments generate additional income each round. The more you invest, the more you earn.",
+    "longTermBonus": "At the end of the game, you will receive a bonus based on your total Long-term investments.",
+    "winning": "Winning the Game",
+    "winningText": "The player with the most coins at the end of the 5th round wins the game."
   }
 }

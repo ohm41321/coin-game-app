@@ -6,9 +6,9 @@ import { drawEventCard } from '../lib/gameLogic';
 import { calculateRound, MAX_ROUNDS } from '../lib/roundCalculator';
 import RoundSummaryModal from './RoundSummaryModal';
 import EventCardView from './EventCardView';
-import DistributeLossModal from './DistributeLossModal';
-import CoverLossModal from './CoverLossModal';
-import AllocateBonusModal from './AllocateBonusModal';
+import SinglePlayerDistributeLossModal from './SinglePlayerDistributeLossModal';
+import SinglePlayerCoverLossModal from './SinglePlayerCoverLossModal';
+import SinglePlayerAllocateBonusModal from './SinglePlayerAllocateBonusModal';
 import Leaderboard from './Leaderboard';
 
 const SinglePlayerGame: React.FC = () => {
@@ -52,6 +52,7 @@ const SinglePlayerGame: React.FC = () => {
       lastUpdate: Date.now(),
       foodCostWaived: false,
       lastRoundSummary: null,
+      coinsToAllocate: 0,
     };
 
     const initialGameState: GameState = {
@@ -214,11 +215,11 @@ const SinglePlayerGame: React.FC = () => {
 
         switch (player.actionRequired.type) {
             case 'DISTRIBUTE_LOSS':
-              return <DistributeLossModal player={player} lossAmount={player.actionRequired.value} onSubmit={handleDistributeLoss} />;
+              return <SinglePlayerDistributeLossModal player={player} lossAmount={player.actionRequired.value} onSubmit={handleDistributeLoss} />;
             case 'COVER_SPECIFIC_LOSS':
-              return <CoverLossModal player={player} lossAmount={player.actionRequired.value} targetCategory={player.actionRequired.targetCategory} onSubmit={handleCoverLoss} />;
+              return <SinglePlayerCoverLossModal player={player} lossAmount={player.actionRequired.value} targetCategory={player.actionRequired.targetCategory} onSubmit={handleCoverLoss} />;
             case 'ALLOCATE_BONUS':
-              return <AllocateBonusModal bonusAmount={player.actionRequired.value} onSubmit={handleAllocateBonus} />;
+              return <SinglePlayerAllocateBonusModal bonusAmount={player.actionRequired.value} onSubmit={handleAllocateBonus} />;
             default:
               return null;
         }

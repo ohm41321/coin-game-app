@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 interface LeaderboardProps {
   gameState: GameState;
-  role: 'player' | 'gm' | null;
+  role: 'player' | 'gm' | 'single-player' | null;
 }
 
 const Leaderboard: React.FC<LeaderboardProps> = ({ gameState, role }) => {
